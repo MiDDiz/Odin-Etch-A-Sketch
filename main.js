@@ -1,26 +1,58 @@
 const divWrapper = document.getElementById("wrapper");
+/*
+    MANAGING BUTTON
+*/
 
-const numDivs = 64;
+
+//To get by prompt
+const numDivs = 4096;
 let arrayDivs = [];
 
-//Shitty fix, may break something later on
-let breakpoint = 0;
+/*
+    MANAGING GRID CREATION AND HOVERING
+*/
 
-for (let i = 0; i < numDivs; i++) {
+
+//Shitty fix, might break something later on
+let breakpoint = 0;
+let desiredSize;
+
+//Append divs to an array
+for (let i = 0; i < numDivs; i++) 
+{
     arrayDivs[i] = document.createElement("div");
 }
 
-let sizeBreakpoint = Math.round(Math.sqrt(arrayDivs.length));
+function getSize(){
+    desiredSize = Math.trunc(1000/rowElements) - 8;
+}
 
-arrayDivs.forEach(element => {
+function createGrid(){
+    // For each element add class grid. If our element is the "sizebreakpoint"-th set a <br> element to generate a new row 
 
-    if(breakpoint === sizeBreakpoint)
-    {
-        breakpoint = 0; 
-        divWrapper.append(document.createElement("br"));
-    } 
-    breakpoint++;
-    element.classList.add("grid");
-    divWrapper.appendChild(element);
-    
-});
+
+    arrayDivs.forEach(element => {    
+
+        if(breakpoint === rowElements)
+        {
+            breakpoint = 0; 
+            divWrapper.append(document.createElement("br"));
+        } 
+        breakpoint++;
+        //Styling
+        element.classList.add("grid");
+        element.style.width=desiredSize+"px";
+        element.style.height=desiredSize+"px";
+        //Event for hovering
+        element.addEventListener("mouseenter", () =>{
+            element.classList.add("hovered");
+        });
+        //Appends the edited child
+        divWrapper.appendChild(element);
+        
+    });
+}
+//Generates the necesary blocks needed to be set onto a row to make a square grid.
+let rowElements = Math.round(Math.sqrt(arrayDivs.length));
+getSize();
+createGrid();
