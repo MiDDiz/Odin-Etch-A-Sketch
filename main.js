@@ -1,11 +1,9 @@
 const divWrapper = document.getElementById("wrapper");
-/*
-    MANAGING BUTTON
-*/
+const btnReset = document.querySelector("button");
 
 
-//To get by prompt
-const numDivs = 4096;
+//Defaut setted. Then get by prompt with btnReset
+let numDivs = 64;
 let arrayDivs = [];
 
 /*
@@ -17,14 +15,26 @@ let arrayDivs = [];
 let breakpoint = 0;
 let desiredSize;
 
-//Append divs to an array
-for (let i = 0; i < numDivs; i++) 
-{
-    arrayDivs[i] = document.createElement("div");
+function init(num){
+    breakpoint = 0;
+    arrayDivs = []
+    //Append divs to an array
+    for (let i = 0; i < num; i++) 
+    {
+        arrayDivs[i] = document.createElement("div");
+    }
+    /*
+        Generates the necesary blocks needed to be set onto a row to make a square grid. 
+        
+        Silly mistake I made was understanding the assignment told you a number of grid elementes 
+        and you had to calculate how many needed to go to a single row/column...
+    */
+    rowElements = Math.round(Math.sqrt(arrayDivs.length));
 }
 
+
 function getSize(){
-    desiredSize = Math.trunc(1000/rowElements) - 8;
+    desiredSize = Math.trunc(1000/rowElements);
 }
 
 function createGrid(){
@@ -52,7 +62,23 @@ function createGrid(){
         
     });
 }
-//Generates the necesary blocks needed to be set onto a row to make a square grid.
-let rowElements = Math.round(Math.sqrt(arrayDivs.length));
+init(numDivs);
 getSize();
 createGrid();
+
+/*
+    MANAGING BUTTON
+*/
+
+function removeChilds()
+{
+    //Discuraged method. If I have time i should work better on this.
+    divWrapper.innerHTML="";
+}
+
+btnReset.addEventListener("click", () =>{
+    removeChilds();
+    init(Math.pow(prompt("Introduce the number of squares pero row you want"),2));
+    getSize();
+    createGrid();
+});
