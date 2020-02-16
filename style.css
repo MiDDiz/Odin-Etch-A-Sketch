@@ -25,3 +25,10 @@ body{
     border: 0;
     background-color: grey;
 }
+.royale-link img{
+    width: 200px;
+    height: 200px;
+    position: fixed;
+    padding-left: 40%;
+    
+}
